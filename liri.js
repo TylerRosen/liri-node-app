@@ -4,10 +4,18 @@
 //Grabs Twitter API
 
   var twitter = require('twitter');
+  var fs = requie('fs');
+  var prompt = require('prompt');
+  var Spotify = require('spotify');
+  var request = require('request');
 
  //Grabs keys from Key.js
 
   var keys = require('../liri-node-app/key.js');
+
+  var input = "";
+
+  var pick = "";
 
   //Stores Twitter keys
 
@@ -19,16 +27,31 @@
 
   });
 
-  myTweets.stream('statuses/filter', {track: 'twitter'},  function(stream) {
-  stream.on('data', function(tweet) {
-    console.log(tweet.text);
-  });
+  //Stores account name, limits tweets to 20
 
-  stream.on('error', function(error) {
-    console.log(error);
-  });
+  var params = {
+  	screen_name: 'ty_rosen',
+  	count: '20',
+  	trim_user: false,
+  }
+
+  myTweets.get('statuses/user_timeline', params, function(error, timeline, response) {
+  	if(!error) {
+  	for (tweet in timeline) {
+
+  		var date= new Date(timeline[tweet].created_at)
+
+  		console.log(timeline[tweet].text);
+  		console.log(date);
+
+  	}
+
+  	}
+
 });
 
+  //fs.appendFile('log.txt')
+  //fs appendFile('log.txt')
 
 //Spotify
 // --------------------------------------------------------------------------------
