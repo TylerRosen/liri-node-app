@@ -1,13 +1,13 @@
-//Twitter
+//Global Variables
 // ------------------------------------------------------------------------
 
-//Grabs Twitter API
+//Grabs APIs
 
   var twitter = require('twitter');
-  var fs = requie('fs');
+  var fs = require('fs');
   var prompt = require('prompt');
   var Spotify = require('spotify');
-  var request = require('request');
+  // var request = require('request');
 
  //Grabs keys from Key.js
 
@@ -16,6 +16,18 @@
   var input = "";
 
   var pick = "";
+
+  //options
+
+  var tweets = "my-tweets";
+  var songs = "spotify-this-song";
+  var movies = "movie-this";
+  var doWhat = "do-what-it-says";
+
+  //prompt.message
+
+  // Twitter
+  // -------------------------------------------------------------------
 
   //Stores Twitter keys
 
@@ -44,9 +56,9 @@
   		console.log(timeline[tweet].text);
   		console.log(date);
 
-  	}
+  	  };
 
-  	}
+  	};
 
 });
 
@@ -56,4 +68,41 @@
 //Spotify
 // --------------------------------------------------------------------------------
 
-var spotify = require('spotify');
+var params = {
+   artist: '',
+   track: '',
+};
+
+Spotify.search({ type: 'track', query: input }, params, function(err, data) {
+    if ( err ) {
+        console.log('Error occurred: ' + err);
+        return;
+    } 
+ 
+    
+});
+
+//OMDB
+//---------------------------------------------------------------------------------
+
+// var params = {
+//   title: 'movieName',
+// }
+
+// request(params, function (error, response, body) {
+// 	if (error && response.statusCode == 200) {
+// 		console.log(body)
+
+//   }else {
+// 		console.log(title);
+// 	}
+
+// });
+
+
+
+//Prompts
+
+// prompt.start();
+
+// prompt.get
