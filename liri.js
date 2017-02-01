@@ -24,12 +24,61 @@
   var movies = "movie-this";
   var doWhat = "do-what-it-says";
 
-  //prompt.message
+//Prompts
+
+//-----------------------------------------------------------------------------------
+
+prompt.message = ("Pick one: my-tweets, spotify-this-song, movie-this, do-what-it-says");
+
+prompt.start();
+
+prompt.get ({
+  properties: {
+    input: {
+      description: ("Enter your choice")
+    },
+  },
+
+}, function(err, result) {
+  input = result.input;
+
+    if(input == tweets) {
+    myTwitter();
+
+    }else if (input == songs) {
+      prompt.get ({
+        properties: {
+          pick: {
+             description: ("Enter a song")
+        },    
+    },
+
+      }, function (err, result) {
+
+        if (result.pick === ""){
+          pick = "The Sign";
+        }else {
+          pick = result.pick;
+        };
+
+      spotify(pick);
+
+      });
+
+    }
+
+},
+
+
+      
+
 
   // Twitter
   // -------------------------------------------------------------------
 
   //Stores Twitter keys
+
+  function myTwitter () {
 
   var myTweets = new twitter ({
   	consumer_key: keys.twitterKeys.consumer_key,
@@ -62,6 +111,8 @@
 
 });
 
+})
+
   //fs.appendFile('log.txt')
   //fs appendFile('log.txt')
 
@@ -69,18 +120,31 @@
 // --------------------------------------------------------------------------------
 
 var params = {
-   artist: '',
-   track: '',
+   type: 'track',
+   query: input,
 };
 
-Spotify.search({ type: 'track', query: input }, params, function(err, data) {
+function spotify(input) {
+
+Spotify.search(params, function(err, data) {
     if ( err ) {
         console.log('Error occurred: ' + err);
         return;
-    } 
+        var track = data.tracks.items;
+          for (var i = 0; i<track.length; i++) {
+            for (j=0; j<music[i].artists.length; j++) {
+              console.log("Artist: " + music[i].artists[j].name);
+              console.log("Song Name: " + music[i].name);
+              console.log("Preview link: " + music[i].preview_url);
+              console.log("Album Name: " + music[i].album.name + "\n");
+            };
+          };
+    };
  
     
 });
+
+};
 
 //OMDB
 //---------------------------------------------------------------------------------
@@ -98,11 +162,3 @@ Spotify.search({ type: 'track', query: input }, params, function(err, data) {
 // 	}
 
 // });
-
-
-
-//Prompts
-
-// prompt.start();
-
-// prompt.get
